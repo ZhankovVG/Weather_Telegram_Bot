@@ -26,6 +26,29 @@ def get_weather(message):
 
         city = data['name']
         temperature = data['main']['temp']
+
+        weather_id = data['weather'][0]['id']
+        if weather_id == 781:
+            weather_emoji = '🌪️'
+        elif weather_id == 771:
+            weather_emoji = '💨'
+        elif weather_id == 762 or weather_id == 771:
+            weather_emoji = '🌋'
+        elif 200 <= weather_id <= 232 or weather_id == 960:
+            weather_emoji = '⛈️'
+        elif 300 <= weather_id <= 321 or 500 <= weather_id <= 531:
+            weather_emoji = '🌧️'
+        elif 600 <= weather_id <= 622:
+            weather_emoji = '❄️'
+        elif 700 <= weather_id <= 751:
+            weather_emoji = '🌫️'
+        elif weather_id == 800:
+            weather_emoji = '☀️'
+        elif 801 <= weather_id <= 804:
+            weather_emoji = '☁️'
+        else:
+            weather_emoji = ''
+
         
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
@@ -44,8 +67,8 @@ def get_weather(message):
 
         bot.reply_to(message,
                      f'<b>Сегодня:</b> {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}\n'
-                     f'<i>Погода в городе:</i> <b>{city}</b>\n<i>Температура:</i> {temperature} C°\n'
-                     f'<i>Влажность</i>: {humidity} %\n<i>Давление:</i> {pressure} мм.рт.ст\n<i>Ветер:</i> {wind} м.с\n'
+                     f'<i>Погода в городе:</i> <b>{city}</b>\n<i>Температура:</i> {temperature} C° {weather_emoji}\n'
+                     f'<i>Влажность</i>: {humidity} %\n<i>Давление:</i> {pressure} мм.рт.ст\n<i>Ветер: </i> {wind} м.с\n'
                      f'<i>Восход солнца:</i> {sunries_timestamp}\n<i>Закат солнца:</i> {sunset_timestamp}\n<i>Продолжительность дня:</i> {lenght_of_the_day}\n'
                      f'***<b>Хорошего вам дня</b>!***',
                      reply_markup=keyboard, parse_mode='HTML'
