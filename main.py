@@ -19,9 +19,9 @@ def start(message):
 @bot.message_handler(content_types=['text'])
 def get_weather(message):
     city = message.text.strip().lower()
-    res = requests.get(
+    try:
+        res = requests.get(
         f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={weather_token}&units=metric')
-    if res.status_code == 200:
         data = json.loads(res.text)
 
         city = data['name']
@@ -49,10 +49,12 @@ def get_weather(message):
                      f'<i>Восход солнца:</i> {sunries_timestamp}\n<i>Закат солнца:</i> {sunset_timestamp}\n<i>Продолжительность дня:</i> {lenght_of_the_day}\n'
                      f'***<b>Хорошего вам дня</b>!***',
                      reply_markup=keyboard, parse_mode='HTML'
-                     )
+                     )   
+        
+    except Exception as err:
+        bot.reply_to(message, f'Не удалось получить погоду для города {city}. Ошибка: {err}')
 
-    else:
-        bot.reply_to(message, f'Город указан не верно')
+        
 
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('forecast_2_days_'))
