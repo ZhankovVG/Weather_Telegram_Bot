@@ -21,9 +21,6 @@ def get_weather(message):
         f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={weather_token}&units=metric')
         data = json.loads(res.text)
 
-        city = data['name']
-        temperature = data['main']['temp']
-
         weather_id = data['weather'][0]['id']
         if weather_id == 781:
             weather_emoji = '🌪️'
@@ -47,9 +44,11 @@ def get_weather(message):
             weather_emoji = ''
 
         
+        city = data['name']
+        temperature = data['main']['temp']
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
-        wind = data['main']['temp']
+        wind = data['wind']['speed']
         sunries_timestamp = datetime.datetime.fromtimestamp(
             data['sys']['sunrise'])
         sunset_timestamp = datetime.datetime.fromtimestamp(
